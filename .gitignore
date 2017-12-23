@@ -74,4 +74,4 @@ Intermediate/*
 # Cache files for the editor to use
 DerivedDataCache/*
 
-Content/Dynamic/Levels/FirstPersonExampleMap_BuiltData.uasset
+Content/Dynamic/Maps/FirstPersonExampleMap_BuiltData.uasset
