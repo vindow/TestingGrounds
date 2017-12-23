@@ -4,6 +4,7 @@
 #include "Kismet/GameplayStatics.h"
 #include "BallProjectile.h"
 #include "Engine/World.h"
+#include "Components/SkeletalMeshComponent.h"
 
 // Sets default values
 AGun::AGun()
