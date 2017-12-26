@@ -5,6 +5,7 @@
 #include "BallProjectile.h"
 #include "Engine/World.h"
 #include "Components/SkeletalMeshComponent.h"
+#include "Animation/AnimInstance.h"
 
 // Sets default values
 AGun::AGun()
@@ -64,12 +65,14 @@ void AGun::OnFire()
 	}
 
 	// try and play a firing animation if specified
-	if (FireAnimation != NULL)
+	if (FireAnimationFP != NULL && AnimInstanceFP != NULL)
 	{
-		// Get the animation object for the arms mesh
-		if (AnimInstance != NULL)
-		{
-			AnimInstance->Montage_Play(FireAnimation, 1.f);
-		}
+		AnimInstanceFP->Montage_Play(FireAnimationFP, 1.f);
+	}
+
+	// try and play a firing animation if specified
+	if (FireAnimationTP != NULL && AnimInstanceTP != NULL)
+	{
+		AnimInstanceTP->Montage_Play(FireAnimationTP, 1.f);
 	}
 }

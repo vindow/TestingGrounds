@@ -27,11 +27,12 @@ protected:
 	UPROPERTY(VisibleDefaultsOnly, Category = Mesh)
 	class USceneComponent* FP_MuzzleLocation;
 
-	/** AnimMontage to play each time we fire */
+	/** AnimMontages to play each time we fire */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
-	class UAnimMontage* FireAnimation;
+	class UAnimMontage* FireAnimationFP;
 
-	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
+	class UAnimMontage* FireAnimationTP;
 
 	
 
@@ -45,8 +46,11 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
 	class USoundBase* FireSound;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
-	class UAnimInstance* AnimInstance;
+	UPROPERTY()
+	class UAnimInstance* AnimInstanceFP;
+
+	UPROPERTY()
+	class UAnimInstance* AnimInstanceTP;
 
 	UFUNCTION(BlueprintCallable, Category = Input)
 	void OnFire();
