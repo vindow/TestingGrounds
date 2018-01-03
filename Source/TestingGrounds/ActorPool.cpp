@@ -29,7 +29,6 @@ void UActorPool::Return(AActor * ActorToReturn)
 		UE_LOG(LogTemp, Error, TEXT("Returned a null actor!"));
 		return;
 	}
-	UE_LOG(LogTemp, Warning, TEXT("[%s} Added %s actor"), *GetName(), *ActorToReturn->GetName());
 	Pool.Push(ActorToReturn);
 }
 
