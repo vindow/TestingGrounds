@@ -26,7 +26,10 @@ void ATile::BeginPlay()
 void ATile::EndPlay(const EEndPlayReason::Type EndPlayReason)
 {
 	Super::EndPlay(EndPlayReason);
-	Pool->Return(NavMeshBoundsVolume);
+	if (Pool != nullptr && NavMeshBoundsVolume != nullptr)
+	{
+		Pool->Return(NavMeshBoundsVolume);
+	}
 	for (int32 i = 0; i < SpawnedActors.Num(); i++)
 	{
 		SpawnedActors[i]->Destroy();
@@ -87,21 +90,26 @@ void ATile::RandomlyPlaceActors(TSubclassOf<T> ToSpawn, FRandomSpawnParameters S
 void ATile::PlaceActor(TSubclassOf<AActor> ToSpawn, FSpawnPosition SpawnPosition)
 {
 	AActor* SpawnedActor = GetWorld()->SpawnActor<AActor>(ToSpawn);
-	SpawnedActor->SetActorRelativeLocation(SpawnPosition.Location);
-	SpawnedActor->AttachToActor(this, FAttachmentTransformRules(EAttachmentRule::KeepRelative, false));
-	SpawnedActor->SetActorRotation(FRotator(0, SpawnPosition.Rotation, 0));
-	SpawnedActor->SetActorRelativeScale3D(FVector(SpawnPosition.Scale));
-	SpawnedActors.Add(SpawnedActor);
+	if (SpawnedActor)
+	{
+		SpawnedActor->SetActorRelativeLocation(SpawnPosition.Location);
+		SpawnedActor->AttachToActor(this, FAttachmentTransformRules(EAttachmentRule::KeepRelative, false));
+		SpawnedActor->SetActorRotation(FRotator(0, SpawnPosition.Rotation, 0));
+		SpawnedActor->SetActorRelativeScale3D(FVector(SpawnPosition.Scale));
+		SpawnedActors.Add(SpawnedActor);
+	}
 }
 
 void ATile::PlaceActor(TSubclassOf<APawn> ToSpawn, FSpawnPosition SpawnPosition)
 {
-	APawn* SpawnedPawn = GetWorld()->SpawnActor<APawn>(ToSpawn);
-	SpawnedPawn->Tags.Add(FName("Enemy"));
-	SpawnedPawn->SpawnDefaultController();
-	SpawnedPawn->SetActorRelativeLocation(SpawnPosition.Location);
-	SpawnedPawn->AttachToActor(this, FAttachmentTransformRules(EAttachmentRule::KeepRelative, false));
-	SpawnedPawn->SetActorRotation(FRotator(0, SpawnPosition.Rotation, 0));
+	FRotator Rotation = FRotator(0, SpawnPosition.Rotation, 0);
+	APawn* SpawnedPawn = GetWorld()->SpawnActor<APawn>(ToSpawn, SpawnPosition.Location, Rotation);
+	if (SpawnedPawn)
+	{
+		SpawnedPawn->Tags.Add(FName("Enemy"));
+		SpawnedPawn->AttachToActor(this, FAttachmentTransformRules(EAttachmentRule::KeepRelative, false));
+		SpawnedPawn->SpawnDefaultController();
+	}
 }
 
 bool ATile::FindEmptyLocation(FVector& OutLocation, float Radius)
