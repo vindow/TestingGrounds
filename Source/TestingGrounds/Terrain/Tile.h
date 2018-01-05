@@ -11,7 +11,7 @@ struct FSpawnPosition
 {
 	GENERATED_USTRUCT_BODY()
 
-	FVector Location;
+		FVector Location;
 	float Rotation = 0.f;
 	float Scale = 1.f;
 };
@@ -21,16 +21,16 @@ struct FRandomSpawnParameters
 {
 	GENERATED_USTRUCT_BODY()
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Spawn Parameters Struct")
-	int32 MinSpawn = 1;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Spawn Parameters Struct")
-	int32 MaxSpawn = 1;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Spawn Parameters Struct")
-	float MinScale = 1.f;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Spawn Parameters Struct")
-	float MaxScale = 1.f;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Spawn Parameters Struct")
-	float Radius = 500.f;
+		UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Spawn Parameters Struct")
+		int32 MinSpawn = 1;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Spawn Parameters Struct")
+		int32 MaxSpawn = 1;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Spawn Parameters Struct")
+		float MinScale = 1.f;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Spawn Parameters Struct")
+		float MaxScale = 1.f;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Spawn Parameters Struct")
+		float Radius = 500.f;
 };
 
 class UActorPool;
@@ -39,19 +39,19 @@ UCLASS()
 class TESTINGGROUNDS_API ATile : public AActor
 {
 	GENERATED_BODY()
-	
-public:	
+
+public:
 	// Sets default values for this actor's properties
 	ATile();
 
 	UFUNCTION(BlueprintCallable, Category = "Setup")
-	void PlaceActors(TSubclassOf<AActor> ToSpawn, FRandomSpawnParameters SpawnParameters);
+		void PlaceActors(TSubclassOf<AActor> ToSpawn, FRandomSpawnParameters SpawnParameters);
 
 	UFUNCTION(BlueprintCallable, Category = "Setup")
-	void PlaceAIPawns(TSubclassOf<APawn> ToSpawn, FRandomSpawnParameters SpawnParameters);
+		void PlaceAIPawns(TSubclassOf<APawn> ToSpawn, FRandomSpawnParameters SpawnParameters);
 
 	UFUNCTION(BlueprintCallable, Category = "Pool")
-	void SetPool(UActorPool* PoolToSet);
+		void SetPool(UActorPool* PoolToSet);
 
 protected:
 	// Called when the game starts or when spawned
@@ -60,21 +60,24 @@ protected:
 	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Spawning")
-	FVector MinExtent;
+		FVector MinExtent;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Spawning")
-	FVector MaxExtent;
+		FVector MaxExtent;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Navigation")
-	FVector NavigationBoundsOffset;
+		FVector NavigationBoundsOffset;
 
-public:	
+	UPROPERTY(BlueprintReadOnly)
+		TArray<APawn*> SpawnedPawns;
+
+public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 private:
 
 	bool CanSpawnAtLocation(FVector Location, float Radius);
-	
+
 	bool FindEmptyLocation(FVector& OutLocation, float Radius);
 
 	template<class T>

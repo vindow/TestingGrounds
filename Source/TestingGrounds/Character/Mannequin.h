@@ -20,12 +20,15 @@ protected:
 	virtual void BeginPlay() override;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Camera", meta = (AllowPrivateAccess = "true"))
-	class UCameraComponent* PlayerCameraComponent;
+		class UCameraComponent* PlayerCameraComponent;
 
 	UPROPERTY(VisibleDefaultsOnly, Category = "Mesh")
-	class USkeletalMeshComponent* PlayerMesh;
-	
-public:	
+		class USkeletalMeshComponent* PlayerMesh;
+
+	UPROPERTY(BlueprintReadOnly)
+		class ATile* PatrolledTile;
+
+public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
@@ -35,12 +38,14 @@ public:
 	virtual void UnPossessed() override;
 
 	UFUNCTION(BlueprintCallable, Category = "Weapon")
-	void PullTrigger();
+		void PullTrigger();
 
 	UPROPERTY(EditDefaultsOnly, Category = "Setup")
-	TSubclassOf<class AGun> GunBlueprint;
+		TSubclassOf<class AGun> GunBlueprint;
+
+	void SetPatrolledTile(ATile* TileToSet);
 
 private:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Weapon", meta = (AllowPrivateAccess = "true"))
-	AGun* Gun;
+		AGun* Gun;
 };

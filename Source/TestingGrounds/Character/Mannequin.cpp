@@ -6,11 +6,12 @@
 #include "Camera/CameraComponent.h"
 #include "Components/CapsuleComponent.h"
 #include "Components/InputComponent.h"
+#include "Terrain/Tile.h"
 
 // Sets default values
 AMannequin::AMannequin()
 {
- 	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
+	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
 	//Setup Player Camera
@@ -33,7 +34,7 @@ AMannequin::AMannequin()
 void AMannequin::BeginPlay()
 {
 	Super::BeginPlay();
-	
+
 	//Attach Gun
 	if (GunBlueprint == NULL)
 	{
@@ -83,6 +84,10 @@ void AMannequin::UnPossessed()
 	Gun->AttachToComponent(GetMesh(), FAttachmentTransformRules(EAttachmentRule::SnapToTarget, true), TEXT("GripPoint_0"));
 }
 
+void AMannequin::SetPatrolledTile(ATile* TileToSet)
+{
+	PatrolledTile = TileToSet;
+}
 
 void AMannequin::PullTrigger()
 {

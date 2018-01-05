@@ -5,16 +5,17 @@
 #include "DrawDebugHelpers.h"
 #include "ActorPool.h"
 #include "AI/Navigation/NavigationSystem.h"
+#include "Character/Mannequin.h"
 
 // Sets default values
 ATile::ATile()
 {
- 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
+	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
 	MinExtent = FVector(0.f, -2000.f, 0.f);
 	MaxExtent = FVector(4000.f, 2000.f, 0.f);
-	NavigationBoundsOffset = FVector(2000.f, 0.f, 0.f);
+	NavigationBoundsOffset = FVector(2025.f, 0.f, 0.f);
 }
 
 // Called when the game starts or when spawned
@@ -109,6 +110,8 @@ void ATile::PlaceActor(TSubclassOf<APawn> ToSpawn, FSpawnPosition SpawnPosition)
 		SpawnedPawn->Tags.Add(FName("Enemy"));
 		SpawnedPawn->AttachToActor(this, FAttachmentTransformRules(EAttachmentRule::KeepRelative, false));
 		SpawnedPawn->SpawnDefaultController();
+		Cast<AMannequin>(SpawnedPawn)->SetPatrolledTile(this);
+		SpawnedPawns.Add(SpawnedPawn);
 	}
 }
 
